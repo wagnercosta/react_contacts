@@ -5,27 +5,18 @@ import Book from './Book';
 
 class BookList extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    shelf: PropTypes.string.isRequired
   }
 
   render() {
-
-    let books = this.props.books
-
     return (
-        <div className="list-books-content">
-            <div>
-                <div className="bookshelf">
-                    <h2 className="bookshelf-title">Currently Reading</h2>
-                    <div className="bookshelf-books">
-                        <ol className="books-grid">
-                            {books.map((book) =>
-                                <Book book={book}/>
-                            )}
-                        </ol>
-                    </div>
-                </div>
-            </div>
+        <div className="bookshelf-books">
+            <ol className="books-grid">
+                {this.props.books.filter(book => book.shelf == this.props.shelf).map((book) => 
+                    <Book key={book.id} book={book} />
+                )}
+            </ol>
         </div>
     )
   }

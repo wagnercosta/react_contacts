@@ -2,7 +2,7 @@ import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 import * as BooksAPI from './BooksAPI'
-import BookList from './BookList';
+import BookShelf from './BookShelf';
 
 class BooksApp extends React.Component {
   state = {
@@ -16,18 +16,25 @@ class BooksApp extends React.Component {
 
   render() {
     let books = this.state.books;
+    //const shelfList = {'currentlyReading', 'wantToRead', 'read'}
+
+    const shelfList = [
+      {
+        "id": "currentlyReading",
+        "title": "Current Reading"
+      },
+      {
+        "id": "wantToRead",
+        "title": "Want to Read"
+      },
+      {
+        "id": "read",
+        "title": "Read"
+      }
+    ]
 
     return (
-      <div>
-        <BookList books={books} />
-        <div>
-            <ul>
-                {books.map((book) =>
-                  console.log(book)
-                )}
-            </ul>
-        </div>
-      </div>
+      <BookShelf books={books} shelfList={shelfList} />
     )
   }
 }
