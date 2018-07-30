@@ -16,7 +16,6 @@ class BooksApp extends React.Component {
 
   render() {
     let books = this.state.books;
-    //const shelfList = {'currentlyReading', 'wantToRead', 'read'}
 
     const shelfList = [
       {
