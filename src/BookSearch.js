@@ -6,32 +6,25 @@ import * as BooksAPI from './BooksAPI'
 class BookSearch extends Component {
     state = {
         query: '',
-        books: []
+        books: [],
+        queryReturned: false
     }
 
-    doQuery() {
-        if (this.state.query !== '') {
-            BooksAPI.search(this.state.query).then((books) => {
+    doQuery = (query) => {
+        if (query !== '') {
+            BooksAPI.search(query).then((books) => {
                 if (books !== undefined) {
-                    this.setState({ books })
+                    this.setState({ books, queryReturned: true })
                     return
                 }
             })
         }
-        this.setState({ books: [] })
-    }
-
-    componentDidMount() {
-        this.doQuery()
+        this.setState({ books: [], queryReturned: false })
     }
 
     updateQuery = (query) => {
-        this.setState({ query: query.trim() })
-        this.doQuery()
-    }
-
-    clearQuery = () => {
-        this.setState({ query: '' })
+        this.setState({ query })
+        this.doQuery(query)
     }
 
     updateBook = (book, shelf) => {
@@ -40,12 +33,15 @@ class BookSearch extends Component {
     }
 
     render() {
-        let query = this.state.query;
-        let currentBooks = this.props.currentBooks;
+        let query = this.state.query
+        let currentBooks = this.props.currentBooks
+        let books = this.state.books
         let newbooks = []
+        let queryReturned = this.state.queryReturned
 
-        if (this.state.books !== undefined && this.state.books.length > 0) {
-            newbooks = this.state.books.map(function (book) {
+
+        if (books !== undefined && books.length > 0) {
+            newbooks = books.map(function (book) {
                 let shelf = 'none'
                 let index = currentBooks.findIndex(b => b.id == book.id);
 
@@ -53,7 +49,8 @@ class BookSearch extends Component {
                 book.shelf = shelf;
                 return book;
             });
-        }
+        } 
+
 
         return (
             <div className="search-books">
@@ -73,6 +70,9 @@ class BookSearch extends Component {
                     )}
                     </ol>
                 </div>
+                {!queryReturned &&
+                    <div className="showing-books">Books not found.</div>
+                }
             </div>
         )
     }

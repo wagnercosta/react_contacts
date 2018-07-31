@@ -11,12 +11,19 @@ class Book extends Component {
 
     render() {
         let book = this.props.book
+        console.log(book)
+        let cover = ''
+        if (book.imageLinks == undefined) {
+            cover = <div className="book-cover" style={{ width: 128, height: 193, backgroundColor: 'black' }}></div>
+          } else {
+            cover = <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.smallThumbnail}")` }}></div>
+          }
 
         return (
             <li key={book.id}>
                 <div className="book">
                     <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.smallThumbnail}")` }}></div>
+                        {cover}
                         <div className="book-shelf-changer">
                             <select value={book.shelf} onChange={(event) => this.props.onUpdateBook(book, event.target.value)} >
                                 <option value="move" disabled>Move to...</option>
